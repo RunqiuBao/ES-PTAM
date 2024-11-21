@@ -484,6 +484,7 @@ void Tracker::estimateTrajectory() {
             (events_[frame_end].ts - events_[cur_ev_].ts).toSec();
         event_rate_ =
             std::round(static_cast<double>(frame_size_) / frameduration);
+        LOG(INFO) << "baodebug: in the estimateTrajectory function";
         if (event_rate_ < noise_rate_) {
             LOG(WARNING) << "Event rate below NOISE RATE. Skipping frame.";
             cur_ev_ += step_size_;
@@ -540,7 +541,7 @@ void Tracker::estimateTrajectory() {
         trackFrame();
 
         T_ref_cam_ *= SE3::exp(-x_).matrix();
-
+        LOG(INFO) << "baodebug: publishing TF from tracker";
         publishTF();        cur_ev_ += step_size_;
 
 #ifdef TRACKING_PERF
