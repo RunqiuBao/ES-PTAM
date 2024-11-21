@@ -194,22 +194,22 @@ void Tracker::tfCallback(const tf::tfMessagePtr& msgs) {
 
 void Tracker::initialize(const ros::Time& ts) {
     // TODO: rewrite the bootstrap process to not rely on dvs_bootstrap_frame_id (from /pose)
-//    std::string bootstrap_frame_id = rpg_common_ros::param<std::string>(
-//        nh_, "dvs_bootstrap_frame_id", std::string("/camera0"));
-//    tf::StampedTransform TF_kf_world;
-//    Eigen::Affine3d T_kf_world;
-//    tf_.lookupTransform(bootstrap_frame_id, world_frame_id_, ts, TF_kf_world);
-//    tf::transformTFToEigen(TF_kf_world, T_kf_world);
+   std::string bootstrap_frame_id = rpg_common_ros::param<std::string>(
+       nh_, "dvs_bootstrap_frame_id", std::string("/camera0"));
+   tf::StampedTransform TF_kf_world;
+   Eigen::Affine3d T_kf_world;
+   tf_.lookupTransform(bootstrap_frame_id, world_frame_id_, ts, TF_kf_world);
+   tf::transformTFToEigen(TF_kf_world, T_kf_world);
 
-//    T_world_kf_ = T_kf_world.cast<float>().inverse();
-    T_world_kf_ = Eigen::Affine3f::Identity();
-    T_kf_ref_ = Eigen::Affine3f::Identity();
-    T_ref_cam_ = Eigen::Affine3f::Identity();
+   T_world_kf_ = T_kf_world.cast<float>().inverse();
+    // T_world_kf_ = Eigen::Affine3f::Identity();
+    // T_kf_ref_ = Eigen::Affine3f::Identity();
+    // T_ref_cam_ = Eigen::Affine3f::Identity();
 
-//    while (cur_ev_ + 1 < events_.size() &&
-//           events_[cur_ev_].ts < TF_kf_world.stamp_)
-//        ++cur_ev_;
-    cur_ev_ = events_.size() - 1;
+   while (cur_ev_ + 1 < events_.size() &&
+          events_[cur_ev_].ts < TF_kf_world.stamp_)
+       ++cur_ev_;
+    // cur_ev_ = events_.size() - 1;
 //    LOG(INFO) << "latest tf stamp: "<< TF_kf_world.stamp_;
 //    LOG(INFO) << "latest event stamp: " << events_[cur_ev_].ts << "id: " << cur_ev_ << " with events size" << events_.size();
     LOG(INFO) << "latest event stamp: " << events_[cur_ev_].ts;
