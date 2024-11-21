@@ -56,8 +56,13 @@ class Boostrapper:
             t = T_w_c[:3, 3]
             q = transformations.quaternion_from_matrix(T_w_c)
 
-        self.br.sendTransform((t[0], t[1], t[2]),
-                              (q[0], q[1], q[2], q[3]),
+        # self.br.sendTransform((t[0], t[1], t[2]),
+                            #   (q[0], q[1], q[2], q[3]),
+                            #   msg.header.stamp,
+                            #   self.tf_frame_name,
+                            #   self.tf_world_name)
+        self.br.sendTransform((0, 0, 0),
+                              (0, 0, 0, 1),
                               msg.header.stamp,
                               self.tf_frame_name,
                               self.tf_world_name)
