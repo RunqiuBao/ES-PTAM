@@ -201,10 +201,10 @@ void Tracker::initialize(const ros::Time& ts) {
    tf_.lookupTransform(bootstrap_frame_id, world_frame_id_, ts, TF_kf_world);
    tf::transformTFToEigen(TF_kf_world, T_kf_world);
 
-   T_world_kf_ = T_kf_world.cast<float>().inverse();
-    // T_world_kf_ = Eigen::Affine3f::Identity();
-    // T_kf_ref_ = Eigen::Affine3f::Identity();
-    // T_ref_cam_ = Eigen::Affine3f::Identity();
+//    T_world_kf_ = T_kf_world.cast<float>().inverse();
+    T_world_kf_ = Eigen::Affine3f::Identity();
+    T_kf_ref_ = Eigen::Affine3f::Identity();
+    T_ref_cam_ = Eigen::Affine3f::Identity();
 
    while (cur_ev_ + 1 < events_.size() &&
           events_[cur_ev_].ts < TF_kf_world.stamp_)
