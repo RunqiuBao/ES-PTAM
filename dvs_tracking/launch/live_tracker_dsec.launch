@@ -43,8 +43,9 @@
     </node> -->
 
     <!-- Tracking module -->
-    <node name="dvs_tracking" pkg="dvs_tracking" type="dvs_tracking_ros" required="true" output="screen">
-        <param name="discard_events_when_idle" value="false"/> <!-- whether not to collect events when idle -->
+    <!-- <node name="dvs_tracking" pkg="dvs_tracking" type="dvs_tracking_ros" required="true" output="screen" launch-prefix="gdb -ex run --args" > -->
+    <node name="dvs_tracking" pkg="dvs_tracking" type="dvs_tracking_ros" required="true" output="screen" > 
+	<param name="discard_events_when_idle" value="false"/> <!-- whether not to collect events when idle -->
         <param name="batch_size" value="20000" /> <!-- batch-gradient descent batch size -->
         <param name="max_iterations" value="150" /> <!-- maximum number of iterations in the optimization -->
         <param name="pyramid_levels" value="2" /> <!-- number of pyramid levels used in the KLT process -->

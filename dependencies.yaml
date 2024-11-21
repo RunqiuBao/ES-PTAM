@@ -29,7 +29,7 @@ repositories:
     version: master
   cnpy:
     type: git
-    url: git@github.com:uzh-rpg/cnpy_catkin.git
+    url: https://github.com/uzh-rpg/cnpy_catkin.git
     version: master
   vicon:
     type: git

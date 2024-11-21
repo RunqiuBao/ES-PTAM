@@ -33,7 +33,6 @@ void LKSE3::projectMap() {
     size_t n_points = 0;
 
     Eigen::Affine3f T_ref_world = (T_world_kf_ * T_kf_ref_).inverse();
-
     for (const auto &P : map_->points) {
         Eigen::Vector3f p(P.x, P.y, P.z);
         p = T_ref_world * p;
@@ -67,6 +66,8 @@ void LKSE3::projectMap() {
     const int k = map_blur_;
     cv::GaussianBlur(img, img, cv::Size(k, k), 0.);
     cv::GaussianBlur(depthmap, depthmap, cv::Size(k, k), 0.);
+    
+    std::cout << "babodebug: after cv ope" << std::endl;
     depthmap /= img;
     ref_img_ = img;
 

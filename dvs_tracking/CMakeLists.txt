@@ -9,8 +9,9 @@ catkin_simple(ALL_DEPS_REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 
-find_package(OpenCV 4.2.0 REQUIRED)
+find_package(OpenCV 4.9.0 EXACT REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
+message("opencv include dir: \n"${OpenCV_INCLUDE_DIRS})
 
 find_package(PCL 1.7 REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
@@ -59,6 +60,8 @@ cs_add_library(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 ################################################################################
 
 cs_add_executable(dvs_tracking_ros src/dvs_tracking_ros.cpp)
+message("baodebug: opencv_libs")
+message(${OpenCV_LIBS})
 target_link_libraries(dvs_tracking_ros ${PROJECT_NAME}
   ${OpenCV_LIBS}
   ${PCL_LIBRARIES}

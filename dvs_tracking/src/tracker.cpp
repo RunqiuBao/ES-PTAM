@@ -22,6 +22,7 @@
 
 #include <mutex>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
 #include <sophus/se3.hpp>
 #include <thread>
 
@@ -299,13 +300,24 @@ void Tracker::publishMapOverlapThread() {
     static ros::Rate r(nhp_.param("event_map_overlap_rate", 25));
     static const float z0 = 1. / nh_.param("max_depth", 10.),
                        z1 = 1. / nh_.param("min_depth", .1), z_range = z1 - z0;
+    
+    // Debug code: had a opencv seg-fault, this code are to test if opencv is linked properly
+    cv::Mat matRandom(100, 100, CV_8UC1);
+    cv::randu(matRandom, 0, 255);
+    cv::Mat blurMat;
+    cv::imwrite("/root/data/test.png", matRandom);
+    cv::GaussianBlur(matRandom, blurMat, cv::Size(5, 5), 1.0);
+    // Debug code
 
+    std::cout << "before create cv::Mat" << std::endl;
     static cv::Mat cmap;
     if (!cmap.data) {
-        cv::Mat gray(256, 1, CV_8U);
-        for (int i = 0; i != gray.rows; ++i) gray.at<uchar>(i) = i;
-        cv::applyColorMap(gray, cmap, cv::COLORMAP_JET);
+	std::cout << "entered if" << std::endl;
+	cv::Mat gray(256, 1, CV_8U);
+	for (int i = 0; i != gray.rows; ++i) gray.at<uchar>(i) = i;
+	cv::applyColorMap(gray, cmap, cv::COLORMAP_JET);
     }
+    std::cout << "after create" << std::endl;
 
     static image_transport::Publisher pub =
         it_.advertise("event_map_overlap", 1);
