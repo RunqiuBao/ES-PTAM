@@ -210,6 +210,7 @@ void Tracker::initialize(const ros::Time& ts) {
     cur_ev_ = events_.size() - 1;
 //    LOG(INFO) << "latest tf stamp: "<< TF_kf_world.stamp_;
 //    LOG(INFO) << "latest event stamp: " << events_[cur_ev_].ts << "id: " << cur_ev_ << " with events size" << events_.size();
+   LOG(INFO) << "latest event stamp: " << events_[cur_ev_].ts;
 
     updateMap();
 
