@@ -192,6 +192,7 @@ void onlineMapper::tfCallback(const tf::tfMessage::ConstPtr& tf_msg) {
 
             ros::Time tf_stamp_= transform_stamped_msg.header.stamp;
             tf::Transform T_hand_eye;
+            LOG(INFO) << "baodebug: mat4_hand_eye: \n" << mat4_hand_eye;
             tf::transformEigenToTF(Eigen::Affine3d(mat4_hand_eye), T_hand_eye);
             tf::StampedTransform stamped_T_hand_eye(T_hand_eye, tf_stamp_, "hand", bootstrap_frame_id_);
 
