@@ -300,6 +300,7 @@ void onlineMapper::mappingLoop(){
 
         //      LOG(INFO) << state_;
         tf::StampedTransform latest_tf;
+        LOG(INFO) << "world_frame_id_: " << world_frame_id_ << ", frame_id_: " << frame_id_;
         if(tf_->waitForTransform(world_frame_id_, frame_id_, ros::Time(0), ros::Duration(0), ros::Duration(0.01), &error_msg)){
             tf_->lookupTransform(world_frame_id_, frame_id_, ros::Time(0), latest_tf);
             latest_tf_stamp_ = latest_tf.stamp_;
