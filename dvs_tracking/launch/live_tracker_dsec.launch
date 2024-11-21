@@ -29,7 +29,7 @@
     <!-- Number of horizontal/vertical pixels in the DSI -->
     <param name="virtual_width" value="640" />
     <param name="virtual_height" value="480" />
-        
+
     <!-- Map expansion -->
     <node name="trigger_map_expansion" pkg="mapper_emvs_stereo" type="trigger_map_expansion.py" output="screen" >
         <remap from="remote_key" to="evo/remote_key" />
@@ -44,7 +44,7 @@
 
     <!-- Tracking module -->
     <node name="dvs_tracking" pkg="dvs_tracking" type="dvs_tracking_ros" required="true" output="screen" launch-prefix="gdb -ex run --args" >
-	<param name="discard_events_when_idle" value="false"/> <!-- whether not to collect events when idle -->
+	      <param name="discard_events_when_idle" value="false"/> <!-- whether not to collect events when idle -->
         <param name="batch_size" value="20000" /> <!-- batch-gradient descent batch size -->
         <param name="max_iterations" value="150" /> <!-- maximum number of iterations in the optimization -->
         <param name="pyramid_levels" value="2" /> <!-- number of pyramid levels used in the KLT process -->

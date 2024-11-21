@@ -163,6 +163,7 @@ void Tracker::trackingThread() {
 }
 
 void Tracker::remoteCallback(const std_msgs::String::ConstPtr& msg) {
+    LOG(INFO) << "baodebug: remoteCallback entered";
     const std::string& cmd = msg->data;
 
     if (cmd == "switch")
@@ -192,6 +193,7 @@ void Tracker::tfCallback(const tf::tfMessagePtr& msgs) {
 }
 
 void Tracker::initialize(const ros::Time& ts) {
+    // TODO: rewrite the bootstrap process to not rely on dvs_bootstrap_frame_id (from /pose)
 //    std::string bootstrap_frame_id = rpg_common_ros::param<std::string>(
 //        nh_, "dvs_bootstrap_frame_id", std::string("/camera0"));
 //    tf::StampedTransform TF_kf_world;
@@ -210,7 +212,7 @@ void Tracker::initialize(const ros::Time& ts) {
     cur_ev_ = events_.size() - 1;
 //    LOG(INFO) << "latest tf stamp: "<< TF_kf_world.stamp_;
 //    LOG(INFO) << "latest event stamp: " << events_[cur_ev_].ts << "id: " << cur_ev_ << " with events size" << events_.size();
-   LOG(INFO) << "latest event stamp: " << events_[cur_ev_].ts;
+    LOG(INFO) << "latest event stamp: " << events_[cur_ev_].ts;
 
     updateMap();
 
@@ -238,6 +240,7 @@ void Tracker::eventCallback(const dvs_msgs::EventArray::ConstPtr& msg) {
 }
 
 void Tracker::mapCallback(const sensor_msgs::PointCloud2::ConstPtr& msg) {
+    LOG(INFO) << "baodebug: mapCallback entered";
     static size_t min_map_size =
         rpg_common_ros::param<int>(nhp_, "min_map_size", 0);
 
