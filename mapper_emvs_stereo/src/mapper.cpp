@@ -38,6 +38,7 @@ onlineMapper::onlineMapper(const ros::NodeHandle &nh,
     nh.param<std::string>("dvs_frame_id", regular_frame_id_, std::string("dvs0"));
     nh.param<std::string>("dvs_bootstrap_frame_id", bootstrap_frame_id_, regular_frame_id_);
     frame_id_ = bootstrap_frame_id_;
+    LOG(INFO) << "baodebug: bootstrap_frame_id_: " << bootstrap_frame_id_;
     nh.param<std::string>("world_frame_id", world_frame_id_ , "world");
     nh.param<bool>("auto_trigger", auto_trigger_, true);
     nh.param<int>("num_ev_per_map", NUM_EV_PER_MAP, 100000);
