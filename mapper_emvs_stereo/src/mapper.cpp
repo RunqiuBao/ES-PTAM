@@ -373,7 +373,12 @@ void onlineMapper::mappingLoop(){
                     double_t duration = (current_ts_ - events_left_[last_tracked_ev_left - NUM_EV_PER_MAP].ts).toSec();
                     LOG(INFO) << "Duration: "<<duration;
                     //              ros::Time ev_subset_start_ts = (events_left_.end()-NUM_EV_PER_MAP)->ts;
+
+#ifdef DUMMY_POSE_BOOTSTRAP
+                    if (!map_initialized || duration > max_duration_){
+#else
                     if (duration > max_duration_){
+#endif
                         LOG(INFO) << "Looking too far back in the past. skip";
                         continue;
                     }
