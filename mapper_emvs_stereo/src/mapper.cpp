@@ -249,7 +249,7 @@ void onlineMapper::eventsCallback(const dvs_msgs::EventArray::ConstPtr& msg, std
 
 #define DUMMY_POSE_BOOTSTRAP
 #ifdef DUMMY_POSE_BOOTSTRAP
-            ros::Time dummy_tf_stamp= ros::Time(first_ev_ts.toSec());
+            ros::Time dummy_tf_stamp= ros::Time(first_ev_ts.toSec() + 4);
             tf::Transform T_world_dummyhand;
             tf::transformEigenToTF(Eigen::Affine3d::Identity(), T_world_dummyhand);
             tf::StampedTransform stamped_T_world_dummyhand(T_world_dummyhand, dummy_tf_stamp, "world", bootstrap_frame_id_);
@@ -321,11 +321,7 @@ void onlineMapper::mappingLoop(){
         }
         //        LOG(INFO) << (latest_tf_stamp_ - current_ts_).toSec();
 
-#ifdef DUMMY_POSE_BOOTSTRAP
-        if (auto_trigger_ && initialized_ && !map_initialized) {
-#else
         if (auto_trigger_ && initialized_ && !map_initialized && (latest_tf_stamp_ - current_ts_).toSec() > init_wait_t_) {
-#endif
             LOG(INFO) << "GENERATING INITIAL MAP AUTOMATICALLY.";
             state_ = MAPPING;
         }
