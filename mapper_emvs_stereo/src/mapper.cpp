@@ -249,12 +249,15 @@ void onlineMapper::eventsCallback(const dvs_msgs::EventArray::ConstPtr& msg, std
 
 #define DUMMY_POSE_BOOTSTRAP
 #ifdef DUMMY_POSE_BOOTSTRAP
-            ros::Time dummy_tf_stamp= ros::Time(first_ev_ts.toSec() + 4);
+            ros::Time dummy_tf_stamp0 = ros::Time(first_ev_ts.toSec());
+            ros::Time dummy_tf_stamp1 = ros::Time(first_ev_ts.toSec() + 4);
             tf::Transform T_world_dummyhand;
             tf::transformEigenToTF(Eigen::Affine3d::Identity(), T_world_dummyhand);
-            tf::StampedTransform stamped_T_world_dummyhand(T_world_dummyhand, dummy_tf_stamp, "world", bootstrap_frame_id_);
+            tf::StampedTransform stamped_T_world_dummyhand0(T_world_dummyhand, dummy_tf_stamp0, "world", bootstrap_frame_id_);
+            tf::StampedTransform stamped_T_world_dummyhand1(T_world_dummyhand, dummy_tf_stamp1, "world", bootstrap_frame_id_);
             // Broadcast dummy start transform
-            broadcaster_.sendTransform(stamped_T_world_dummyhand);
+            broadcaster_.sendTransform(stamped_T_world_dummyhand0);
+            broadcaster_.sendTransform(stamped_T_world_dummyhand1);
 #endif
 
         }
