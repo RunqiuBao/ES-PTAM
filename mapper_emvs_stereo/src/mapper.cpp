@@ -375,7 +375,7 @@ void onlineMapper::mappingLoop(){
                     //              ros::Time ev_subset_start_ts = (events_left_.end()-NUM_EV_PER_MAP)->ts;
 
 #ifdef DUMMY_POSE_BOOTSTRAP
-                    if (!map_initialized || duration > max_duration_){
+                    if (map_initialized && duration > max_duration_){
 #else
                     if (duration > max_duration_){
 #endif
