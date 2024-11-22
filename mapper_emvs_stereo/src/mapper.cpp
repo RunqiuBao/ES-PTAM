@@ -197,7 +197,7 @@ void onlineMapper::tfCallback(const tf::tfMessage::ConstPtr& tf_msg) {
             tf::StampedTransform stamped_T_hand_eye(T_hand_eye, tf_stamp_, "hand", bootstrap_frame_id_);
 
             // Broadcast hand eye transform
-            broadcaster_.sendTransform(stamped_T_hand_eye);
+            // broadcaster_.sendTransform(stamped_T_hand_eye);
         }
 
         if (transform_stamped_msg.child_frame_id == frame_id_ || transform_stamped_msg.child_frame_id == "/"+frame_id_) {
