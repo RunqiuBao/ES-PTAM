@@ -246,6 +246,17 @@ void onlineMapper::eventsCallback(const dvs_msgs::EventArray::ConstPtr& msg, std
             //          current_ts = first_ev_ts;
             LOG(INFO) << "First timestamp is: "<< first_ev_ts;
             current_ts_ = first_ev_ts;
+
+#define DUMMY_POSE_BOOTSTRAP
+#ifdef DUMMY_POSE_BOOTSTRAP
+            ros::Time dummy_tf_stamp= ros::Time(first_ev_ts.toSec() + 4);
+            tf::Transform T_world_dummyhand;
+            tf::transformEigenToTF(Eigen::Affine3d::Identity(), T_world_dummyhand);
+            tf::StampedTransform stamped_T_world_dummyhand(T_world_dummyhand, dummy_tf_stamp, "world", bootstrap_frame_id_);
+            // Broadcast dummy start transform
+            broadcaster_.sendTransform(stamped_T_world_dummyhand);
+#endif
+
         }
         EQ.push_back(ev_modified);
     }
@@ -300,7 +311,6 @@ void onlineMapper::mappingLoop(){
 
         //      LOG(INFO) << state_;
         tf::StampedTransform latest_tf;
-        LOG(INFO) << "world_frame_id_: " << world_frame_id_ << ", frame_id_: " << frame_id_;
         if(tf_->waitForTransform(world_frame_id_, frame_id_, ros::Time(0), ros::Duration(0), ros::Duration(0.01), &error_msg)){
             tf_->lookupTransform(world_frame_id_, frame_id_, ros::Time(0), latest_tf);
             latest_tf_stamp_ = latest_tf.stamp_;
