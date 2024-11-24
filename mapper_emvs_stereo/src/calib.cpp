@@ -870,6 +870,7 @@ void get_camera_calib_dsec_yaml(image_geometry::PinholeCameraModel& cam0,
         }
     }
 
+    LOG(INFO) << "baodebug T_10: " << T_10;
     matR_L = T_32 * T_21 * T_10; //matR_L is mat3_0
     mat4_hand_eye = T_lidar_camRect1 * T_rect1_1 * T_10;
     LOG(INFO) << "matR_L: " <<matR_L;
