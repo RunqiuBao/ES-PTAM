@@ -152,14 +152,20 @@ void Tracker::trackingThread() {
     static ros::Rate r(100);
 
     LOG(INFO) << "Spawned tracking thread.";
-
+    std::ofstream trajFile("/root/data/unitree/cameraTrackOptimized_esptam.txt");
+    if (!trajFile.is_open()) {
+        raise std::runtime_error("Failed to write trajectory.");
+    }
+    int frame_count = 0;
     while (ros::ok()) {
         r.sleep();
 
         if (!idle_ && keypoints_.size() > 0) {
-            estimateTrajectory();
+            estimateTrajectory(trajFile, frame_count);
         }
     }
+
+    trajFile.close();
 }
 
 void Tracker::remoteCallback(const std_msgs::String::ConstPtr& msg) {
@@ -463,7 +469,7 @@ bool Tracker::getFilteredPose(tf::StampedTransform& pose) {
     return true;
 }
 
-void Tracker::estimateTrajectory() {
+void Tracker::estimateTrajectory(std::ofstream& trajFile, int& frame_count) {
     static const size_t max_event_rate = nhp_.param("max_event_rate", 8000000),
                         events_per_kf = nhp_.param("events_per_kf", 100000);
 
@@ -539,8 +545,17 @@ void Tracker::estimateTrajectory() {
         //LOG(INFO) << "*****************Collecting events from "<< events_[cur_ev_].ts << " - "<< events_[frame_end].ts;
         trackFrame();
 
+        // save trajectory.
         T_ref_cam_ *= SE3::exp(-x_).matrix();
         LOG(INFO) << "baodebug: publishing TF from tracker";
+        Eigen::Affine3f T_world_cam = T_world_kf_ * T_kf_ref_ * T_ref_cam_;
+        Eigen::Vector3f translation = T_world_cam.translation();
+        LOG(INFO) << "baodebug: translation: " << translation;
+        Eigen::Matrix3f rotation = T_world_cam.rotation();
+        Eigen::Quaternionf quaternion(rotation);
+        trajFile << std::to_string(frame_count) << " " << translation(0) << " " << translation(1) << " " << translation(2) << " " << quaternion.x() << " " << quaternion.y() << " " << quaternion.z() << " " << quaternion.w() << std::endl;
+        frame_count++;
+
         publishTF();        cur_ev_ += step_size_;
 
 #ifdef TRACKING_PERF

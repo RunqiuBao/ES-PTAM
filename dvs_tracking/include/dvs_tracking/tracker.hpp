@@ -161,7 +161,7 @@ class Tracker : public LKSE3 {
      *
      * @see estimateTrajectory
      */
-    void estimateTrajectory();
+    void estimateTrajectory(std::ofstream& trajFile);
 
     /**
      * Set current frame as reference frame and project the map
