@@ -154,7 +154,7 @@ void Tracker::trackingThread() {
     LOG(INFO) << "Spawned tracking thread.";
     std::ofstream trajFile("/root/data/unitree/cameraTrackOptimized_esptam.txt");
     if (!trajFile.is_open()) {
-        raise std::runtime_error("Failed to write trajectory.");
+        throw std::runtime_error("Failed to write trajectory.");
     }
     int frame_count = 0;
     while (ros::ok()) {
